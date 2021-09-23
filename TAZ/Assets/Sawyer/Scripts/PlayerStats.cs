@@ -8,6 +8,7 @@ public class PlayerStats : MonoBehaviour
     public int ap = 10;             // attack power
     public int maxHp = 100;         // max health - might change
     public int curHp = 100;         // current health - might change
+    public int jumpForce = 10;
     public bool doubleJump = false; // can double jump?
     public int specialCd = 10;      // special ability cooldown
     public int ultCharge = 0;       // ultimate ability charge
