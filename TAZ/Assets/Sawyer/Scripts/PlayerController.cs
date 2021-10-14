@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement Variables")]
     [SerializeField] private float movementAccel = 50;
-    [SerializeField] private float maxMoveSpeed = 12;
+    //[SerializeField] private float maxMoveSpeed = 12;
+    [SerializeField] private float maxMoveSpeed;
     [SerializeField] private float linearDrag = 10;
     private float horizontalDirection;
     private bool changingDirection => (rb.velocity.x > 0f && horizontalDirection < 0f || rb.velocity.x < 0f && horizontalDirection > 0f);
@@ -25,41 +26,58 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float fallMultiplier = 8f;
     [SerializeField] private float lowJumpFallMultiplier = 5f;
 
-    /*
+    
     [Header("Ground Collision Variables")]
-    [SerializeField] private float groundRaycastLength;
+    [SerializeField] private float groundRaycastLength = 0.75f;
+    [SerializeField] private Vector3 groundRaycastOffset;
     [SerializeField] private bool onGround;
-    */
+
+    [Header("Wall Collision Variables")]
+    [SerializeField] private float wallRaycastLength = 0.35f;
+    [SerializeField] private Vector3 wallRaycastOffset;
+    [SerializeField] private bool onRightWall;
+    [SerializeField] private bool onLeftWall;
+    //[SerializeField] private float wallLinearDrag = 20;
+
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        maxMoveSpeed = stats.maxSpeed;
     }
 
     //PLAYER_CONTROLLER_2.0
     private void Update()
     {
         horizontalDirection = GetInput().x;
-        if (Input.GetButtonDown("Jump") && canJump)
+        if (Input.GetButtonDown("Jump") && canJump && onGround)
             Jump();
+        else if (Input.GetButtonDown("Jump") && canJump && onRightWall)
+            WallJump(1);
+        else if (Input.GetButtonDown("Jump") && canJump && onLeftWall)
+            WallJump(2);
     }
 
     private void FixedUpdate()
     {
-        //CheckCollisions();
+        CheckCollisions();
         MoveCharacter();
-        
-        if (canJump)
+
+        if (canJump && onGround)
         {
             ApplyLinearDrag();
         }
+        //else if (onRightWall || onLeftWall) {
+        //    ApplyWallLinearDrag();
+        //}
         else
         {
             ApplyAirLinearDrag();
         }
         FallMultiplier();
-        
+
+
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
@@ -93,11 +111,31 @@ public class PlayerController : MonoBehaviour
             rb.drag = airLinearDrag;
     }
 
+    /*
+    private void ApplyWallLinearDrag()
+    {
+        rb.drag = wallLinearDrag;
+    }
+    */
+
     private void Jump()
     {
         canJump = false;
         rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+    }
+
+    private void WallJump(int dir)
+    {
+        canJump = false;
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        //rb.velocity = new Vector2(rb.velocity.x, 0f);
+        Vector2 wallJumpDirection = new Vector2();
+        if (dir == 1)
+            wallJumpDirection = new Vector2(-.75f, 1f);
+        else if(dir == 2)
+            wallJumpDirection = new Vector2(.75f, 1f);
+        rb.AddForce(wallJumpDirection * jumpForce, ForceMode2D.Impulse);
     }
 
     private void FallMultiplier()
@@ -110,18 +148,23 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 1f;
     }
 
-    /*
+    
     private void CheckCollisions()
     {
-        onGround = Physics2D.Raycast(transform.position, Vector2.down, groundRaycastLength, groundLayer);
+        onGround = Physics2D.Raycast(transform.position + groundRaycastOffset, Vector2.down, groundRaycastLength, groundLayer);
+
+        onRightWall = Physics2D.Raycast(transform.position + wallRaycastOffset, Vector2.right, wallRaycastLength, groundLayer);
+        onLeftWall = Physics2D.Raycast(transform.position + wallRaycastOffset, Vector2.left, wallRaycastLength, groundLayer);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * groundRaycastLength);
+        Gizmos.DrawLine(transform.position + groundRaycastOffset, transform.position + Vector3.down * groundRaycastLength);
+        Gizmos.DrawLine(transform.position + wallRaycastOffset, transform.position + Vector3.right * wallRaycastLength);
+        Gizmos.DrawLine(transform.position + wallRaycastOffset, transform.position + Vector3.left * wallRaycastLength);
     }
-    */
+    
 
     /*
     //PLAYER_CONTROLLER_1.0
