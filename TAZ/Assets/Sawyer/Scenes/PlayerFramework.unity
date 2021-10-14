@@ -1128,6 +1128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 1917079049}
+  mainCamera: {fileID: 1818661946}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1146,6 +1147,7 @@ MonoBehaviour:
   wallRaycastOffset: {x: 0, y: 0, z: 0}
   onRightWall: 0
   onLeftWall: 0
+  mouseWorldPos: {x: 0, y: 0, z: 0}
 --- !u!1 &1998671605
 GameObject:
   m_ObjectHideFlags: 0

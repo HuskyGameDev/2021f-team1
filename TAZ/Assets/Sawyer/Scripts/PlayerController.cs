@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerStats stats;
     private Rigidbody2D rb;
+    public Camera mainCamera;
 
     [Header("Layer Masks")]
     [SerializeField] private LayerMask groundLayer;
@@ -39,6 +40,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool onLeftWall;
     //[SerializeField] private float wallLinearDrag = 20;
 
+    [Header("Mouse Variables")]
+    [SerializeField] private Vector3 mouseWorldPos;
+
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +54,7 @@ public class PlayerController : MonoBehaviour
     //PLAYER_CONTROLLER_2.0
     private void Update()
     {
+        //movement
         horizontalDirection = GetInput().x;
         if (Input.GetButtonDown("Jump") && canJump && onGround)
             Jump();
@@ -57,6 +62,9 @@ public class PlayerController : MonoBehaviour
             WallJump(1);
         else if (Input.GetButtonDown("Jump") && canJump && onLeftWall)
             WallJump(2);
+
+        //mouse position
+        GetMouse();
     }
 
     private void FixedUpdate()
@@ -90,6 +98,11 @@ public class PlayerController : MonoBehaviour
     private Vector2 GetInput()
     {
         return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    }
+
+    private void GetMouse() {
+        mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos.z = 0f;
     }
 
     private void MoveCharacter()
@@ -163,6 +176,7 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(transform.position + groundRaycastOffset, transform.position + Vector3.down * groundRaycastLength);
         Gizmos.DrawLine(transform.position + wallRaycastOffset, transform.position + Vector3.right * wallRaycastLength);
         Gizmos.DrawLine(transform.position + wallRaycastOffset, transform.position + Vector3.left * wallRaycastLength);
+        Gizmos.DrawLine(transform.position, mouseWorldPos);
     }
     
 
