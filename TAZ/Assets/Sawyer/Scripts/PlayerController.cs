@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     //PLAYER_CONTROLLER_2.0
     private void Update()
     {
-        //movement
+        //movement and controls
         horizontalDirection = GetInput().x;
         if (Input.GetButtonDown("Jump") && canJump && onGround)
             Jump();
@@ -62,6 +62,12 @@ public class PlayerController : MonoBehaviour
             WallJump(1);
         else if (Input.GetButtonDown("Jump") && canJump && onLeftWall)
             WallJump(2);
+        else if (Input.GetMouseButtonDown(0)) 
+            basicAttack();
+        else if (Input.GetKey(KeyCode.E))
+            specialAbility();
+        else if (Input.GetKey(KeyCode.Q))
+            ultimateAbility();
 
         //mouse position
         GetMouse();
@@ -149,6 +155,19 @@ public class PlayerController : MonoBehaviour
         else if(dir == 2)
             wallJumpDirection = new Vector2(.75f, 1f);
         rb.AddForce(wallJumpDirection * jumpForce, ForceMode2D.Impulse);
+    }
+
+    private void specialAbility() {
+        Debug.Log("Special Ability Cast");
+    }
+
+    private void ultimateAbility()
+    {
+        Debug.Log("Ultimate Ability Cast");
+    }
+
+    private void basicAttack() {
+        Debug.Log("Basic Attack");
     }
 
     private void FallMultiplier()
