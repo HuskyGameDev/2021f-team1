@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    //PLAYER STATS
     public int maxSpeed = 12;           // movement speed
     public int ap = 10;             // attack power
     public int maxHp = 100;         // max health - might change
