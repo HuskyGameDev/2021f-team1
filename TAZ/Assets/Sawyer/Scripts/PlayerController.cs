@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement Variables")]
     [SerializeField] private float movementAccel = 50;
-    //[SerializeField] private float maxMoveSpeed = 12;
     [SerializeField] private float maxMoveSpeed;
     [SerializeField] private float linearDrag = 10;
     private float horizontalDirection;
@@ -26,8 +25,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float airLinearDrag = 2.5f;
     [SerializeField] private float fallMultiplier = 8f;
     [SerializeField] private float lowJumpFallMultiplier = 5f;
+    private int extraJumpsRemaining;
 
-    
+
     [Header("Ground Collision Variables")]
     [SerializeField] private float groundRaycastLength = 0.75f;
     [SerializeField] private Vector3 groundRaycastOffset;
@@ -38,11 +38,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector3 wallRaycastOffset;
     [SerializeField] private bool onRightWall;
     [SerializeField] private bool onLeftWall;
-    //[SerializeField] private float wallLinearDrag = 20;
 
     [Header("Mouse Variables")]
     [SerializeField] private Vector3 mouseWorldPos;
-
 
     // Start is called before the first frame update
     void Start()
@@ -54,20 +52,27 @@ public class PlayerController : MonoBehaviour
     //PLAYER_CONTROLLER_2.0
     private void Update()
     {
+
         //movement and controls
         horizontalDirection = GetInput().x;
-        if (Input.GetButtonDown("Jump") && canJump && onGround)
-            Jump();
-        else if (Input.GetButtonDown("Jump") && canJump && onRightWall)
+        if (Input.GetButtonDown("Jump") && canJump && onRightWall)
             WallJump(1);
         else if (Input.GetButtonDown("Jump") && canJump && onLeftWall)
             WallJump(2);
-        else if (Input.GetMouseButtonDown(0)) 
+        else if (Input.GetButtonDown("Jump") && canJump && (onGround || extraJumpsRemaining > 0))
+            Jump();
+        else if (Input.GetMouseButtonDown(0))
             basicAttack();
-        else if (Input.GetKey(KeyCode.E))
+        else if (Input.GetKey(KeyCode.E) && stats.specialReady)
+        {
             specialAbility();
-        else if (Input.GetKey(KeyCode.Q))
+            stats.resetSpecial();
+        }
+        else if (Input.GetKey(KeyCode.Q) && stats.ultReady)
+        {
             ultimateAbility();
+            stats.resetUlt();
+        }
 
         //mouse position
         GetMouse();
@@ -80,11 +85,9 @@ public class PlayerController : MonoBehaviour
 
         if (canJump && onGround)
         {
+            extraJumpsRemaining = stats.extraJumps;
             ApplyLinearDrag();
         }
-        //else if (onRightWall || onLeftWall) {
-        //    ApplyWallLinearDrag();
-        //}
         else
         {
             ApplyAirLinearDrag();
@@ -100,6 +103,23 @@ public class PlayerController : MonoBehaviour
             canJump = true;
         
     }
+
+    // Ability functions
+    private void specialAbility()
+    {
+        Debug.Log("Special Ability Cast");
+    }
+
+    private void ultimateAbility()
+    {
+        Debug.Log("Ultimate Ability Cast");
+    }
+
+    private void basicAttack()
+    {
+        Debug.Log("Basic Attack");
+    }
+    // End of ability functions
 
     private Vector2 GetInput()
     {
@@ -130,44 +150,27 @@ public class PlayerController : MonoBehaviour
             rb.drag = airLinearDrag;
     }
 
-    /*
-    private void ApplyWallLinearDrag()
-    {
-        rb.drag = wallLinearDrag;
-    }
-    */
-
     private void Jump()
     {
-        canJump = false;
+        if (extraJumpsRemaining > 0)
+            extraJumpsRemaining--;
+        else
+            canJump = false;
         rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
     private void WallJump(int dir)
     {
-        canJump = false;
+        if (extraJumpsRemaining < 0)
+            canJump = false;
         rb.velocity = new Vector2(rb.velocity.x, 0f);
-        //rb.velocity = new Vector2(rb.velocity.x, 0f);
         Vector2 wallJumpDirection = new Vector2();
         if (dir == 1)
             wallJumpDirection = new Vector2(-.75f, 1f);
         else if(dir == 2)
             wallJumpDirection = new Vector2(.75f, 1f);
         rb.AddForce(wallJumpDirection * jumpForce, ForceMode2D.Impulse);
-    }
-
-    private void specialAbility() {
-        Debug.Log("Special Ability Cast");
-    }
-
-    private void ultimateAbility()
-    {
-        Debug.Log("Ultimate Ability Cast");
-    }
-
-    private void basicAttack() {
-        Debug.Log("Basic Attack");
     }
 
     private void FallMultiplier()
@@ -180,7 +183,6 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 1f;
     }
 
-    
     private void CheckCollisions()
     {
         onGround = Physics2D.Raycast(transform.position + groundRaycastOffset, Vector2.down, groundRaycastLength, groundLayer);
@@ -198,23 +200,4 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(transform.position, mouseWorldPos);
     }
     
-
-    /*
-    //PLAYER_CONTROLLER_1.0
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.A)) {
-            transform.Translate(Vector2.left * stats.speed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Translate(Vector2.right * stats.speed * Time.deltaTime);
-        }
-        if (Input.GetButtonDown("Jump"))
-        {
-            rb.AddForce(Vector2.up * stats.jumpForce, ForceMode2D.Impulse);
-        }
-    }
-    */
 }
