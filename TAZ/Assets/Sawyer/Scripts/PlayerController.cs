@@ -191,7 +191,7 @@ public class PlayerController : MonoBehaviour
             case 0:
 
                 //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
-                Collider2D[] hits = Physics2D.OverlapCircleAll(attack.position, range, enemyLayers);]
+                Collider2D[] hits = Physics2D.OverlapCircleAll(attack.position, range, enemyLayers);
 			
 			foreach (Collider2D enemy in hits)
                 {
