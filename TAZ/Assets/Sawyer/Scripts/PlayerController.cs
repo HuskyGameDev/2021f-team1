@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement Variables")]
     [SerializeField] private float movementAccel = 50;
-    [SerializeField] private float maxMoveSpeed;
+    //[SerializeField] private float maxMoveSpeed;
     [SerializeField] private float linearDrag = 10;
     private float horizontalDirection;
     private bool changingDirection => (rb.velocity.x > 0f && horizontalDirection < 0f || rb.velocity.x < 0f && horizontalDirection > 0f);
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        maxMoveSpeed = stats.maxSpeed;
+        //maxMoveSpeed = stats.maxSpeed;
     }
 
     //PLAYER_CONTROLLER_2.0
@@ -134,8 +134,8 @@ public class PlayerController : MonoBehaviour
     private void MoveCharacter()
     {
         rb.AddForce(new Vector2(horizontalDirection, 0f) * movementAccel);
-        if (Mathf.Abs(rb.velocity.x) > maxMoveSpeed)
-            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxMoveSpeed, rb.velocity.y);
+        if (Mathf.Abs(rb.velocity.x) > stats.maxSpeed)
+            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * stats.maxSpeed, rb.velocity.y);
     }
 
     private void ApplyLinearDrag() {
