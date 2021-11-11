@@ -10,43 +10,65 @@ public class PlayerController : MonoBehaviour
     public Camera mainCamera;
 
     [Header("Layer Masks")]
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField]
+    private LayerMask groundLayer;
 
     [Header("Movement Variables")]
-    [SerializeField] private float movementAccel = 50;
-    //[SerializeField] private float maxMoveSpeed;
-    [SerializeField] private float linearDrag = 10;
+    [SerializeField]
+    private float movementAccel = 50;
+    [SerializeField]
+    private float maxMoveSpeed;
+    [SerializeField]
+    private float linearDrag = 10;
     private float horizontalDirection;
     private bool changingDirection => (rb.velocity.x > 0f && horizontalDirection < 0f || rb.velocity.x < 0f && horizontalDirection > 0f);
 
     [Header("Jump Variables")]
-    [SerializeField] private float jumpForce = 12f;
-    [SerializeField] private bool canJump;
-    [SerializeField] private float airLinearDrag = 2.5f;
-    [SerializeField] private float fallMultiplier = 8f;
-    [SerializeField] private float lowJumpFallMultiplier = 5f;
+    [SerializeField]
+    private float jumpForce = 12f;
+    [SerializeField]
+    private bool canJump;
+    [SerializeField]
+    private float airLinearDrag = 2.5f;
+    [SerializeField]
+    private float fallMultiplier = 8f;
+    [SerializeField]
+    private float lowJumpFallMultiplier = 5f;
     private int extraJumpsRemaining;
 
 
     [Header("Ground Collision Variables")]
-    [SerializeField] private float groundRaycastLength = 0.75f;
-    [SerializeField] private Vector3 groundRaycastOffset;
-    [SerializeField] private bool onGround;
+    [SerializeField]
+    private float groundRaycastLength = 0.75f;
+    [SerializeField]
+    private Vector3 groundRaycastOffset;
+    [SerializeField]
+    private bool onGround;
 
     [Header("Wall Collision Variables")]
-    [SerializeField] private float wallRaycastLength = 0.35f;
-    [SerializeField] private Vector3 wallRaycastOffset;
-    [SerializeField] private bool onRightWall;
-    [SerializeField] private bool onLeftWall;
+    [SerializeField]
+    private float wallRaycastLength = 0.35f;
+    [SerializeField]
+    private Vector3 wallRaycastOffset;
+    [SerializeField]
+    private bool onRightWall;
+    [SerializeField]
+    private bool onLeftWall;
 
     [Header("Mouse Variables")]
-    [SerializeField] private Vector3 mouseWorldPos;
+    [SerializeField]
+    private Vector3 mouseWorldPos;
+
+    //These are the stats for the attack object
+    public Transform attack;
+    public float range = 1.0f;
+    public LayerMask enemyLayers;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //maxMoveSpeed = stats.maxSpeed;
+        maxMoveSpeed = stats.maxSpeed;
     }
 
     //PLAYER_CONTROLLER_2.0
@@ -101,22 +123,99 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.collider.CompareTag("ground"))
             canJump = true;
-        
+
     }
 
     // Ability functions
     private void specialAbility()
     {
+        print("First test");
+        switch (stats.type)
+        {
+            case 0:
+                print("Test here");
+                //stats.attackpower;
+                // code block
+                break;
+            case 1:
+                // code block
+                break;
+            case 2:
+                // code block
+                break;
+            case 3:
+                // code block
+                break;
+            case 4:
+                // code block
+                break;
+            default:
+                print("Test");
+                // code block
+                break;
+        }
         Debug.Log("Special Ability Cast");
     }
 
     private void ultimateAbility()
     {
+        switch (stats.type)
+        {
+            case 0:
+                //stats.attackpower;
+                // code block
+                break;
+            case 1:
+                // code block
+                break;
+            case 2:
+                // code block
+                break;
+            case 3:
+                // code block
+                break;
+            case 4:
+                // code block
+                break;
+            default:
+                // code block
+                break;
+        }
         Debug.Log("Ultimate Ability Cast");
     }
 
     private void basicAttack()
     {
+        switch (stats.type)
+        {
+            case 0:
+
+                //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
+                Collider2D[] hits = Physics2D.OverlapCircleAll(attack.position, range, enemyLayers);
+			
+			foreach (Collider2D enemy in hits)
+                {
+                    //Call a function that hurts the enemy
+                    //stats.attackpower; for damage done
+                }
+
+                break;
+            case 1:
+                // code block
+                break;
+            case 2:
+                // code block
+                break;
+            case 3:
+                // code block
+                break;
+            case 4:
+                // code block
+                break;
+            default:
+                // code block
+                break;
+        }
         Debug.Log("Basic Attack");
     }
     // End of ability functions
@@ -126,7 +225,8 @@ public class PlayerController : MonoBehaviour
         return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     }
 
-    private void GetMouse() {
+    private void GetMouse()
+    {
         mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0f;
     }
@@ -134,12 +234,13 @@ public class PlayerController : MonoBehaviour
     private void MoveCharacter()
     {
         rb.AddForce(new Vector2(horizontalDirection, 0f) * movementAccel);
-        if (Mathf.Abs(rb.velocity.x) > stats.maxSpeed)
-            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * stats.maxSpeed, rb.velocity.y);
+        if (Mathf.Abs(rb.velocity.x) > maxMoveSpeed)
+            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxMoveSpeed, rb.velocity.y);
     }
 
-    private void ApplyLinearDrag() {
-        if (Mathf.Abs(horizontalDirection) < 0.4f || changingDirection) 
+    private void ApplyLinearDrag()
+    {
+        if (Mathf.Abs(horizontalDirection) < 0.4f || changingDirection)
             rb.drag = linearDrag;
         else
             rb.drag = 0f;
@@ -147,7 +248,7 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyAirLinearDrag()
     {
-            rb.drag = airLinearDrag;
+        rb.drag = airLinearDrag;
     }
 
     private void Jump()
@@ -168,7 +269,7 @@ public class PlayerController : MonoBehaviour
         Vector2 wallJumpDirection = new Vector2();
         if (dir == 1)
             wallJumpDirection = new Vector2(-.75f, 1f);
-        else if(dir == 2)
+        else if (dir == 2)
             wallJumpDirection = new Vector2(.75f, 1f);
         rb.AddForce(wallJumpDirection * jumpForce, ForceMode2D.Impulse);
     }
@@ -199,5 +300,5 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(transform.position + wallRaycastOffset, transform.position + Vector3.left * wallRaycastLength);
         Gizmos.DrawLine(transform.position, mouseWorldPos);
     }
-    
+
 }
