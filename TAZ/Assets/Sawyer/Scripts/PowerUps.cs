@@ -13,11 +13,12 @@ public class PowerUps : MonoBehaviour
     //      Special Ability Cooldown Reduction
 
     // PowerUp Variables
-    int attackBuff = 5;
-    int speedBuff = 3;
-    int healthBuff = 1;
-    int jumpBuff = 1;
-    int specialCooldownBuff = 1;
+    public int NumberOfPowerUps = 5;
+    public int attackBuff = 5;
+    public int speedBuff = 3;
+    public int healthBuff = 1;
+    public int jumpBuff = 1;
+    public int specialCooldownBuff = 1;
 
     public PlayerStats stats;
 
