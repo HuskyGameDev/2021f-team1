@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class BulletBasic : MonoBehaviour
 {
-
+    // Start is called before the first frame update
     public PlayerStats stats;
 
     public float speed = 20f;
@@ -29,17 +29,17 @@ public class Bullet : MonoBehaviour
         //enemy.TakeDamage(damage);
         //}
 
-        if (hitInfo.gameObject.layer == 7) {
+        if (hitInfo.gameObject.layer == 7)
+        {
             Debug.Log("Hit Enemy");
-            hitInfo.GetComponent<EnemyStats>().takeDamage(stats.attackPower);
+            hitInfo.GetComponent<EnemyStats>().takeDamage(stats.attackPower/2);
             Destroy(gameObject);
         }
 
         //Instantiate(impactEffect, transform.position, transform.rotation);
 
-        
+
 
         //Destroy(gameObject);
     }
-
 }

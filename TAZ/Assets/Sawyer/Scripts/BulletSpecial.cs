@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class BulletSpecial : MonoBehaviour
 {
-
     public PlayerStats stats;
 
     public float speed = 20f;
@@ -29,7 +28,8 @@ public class Bullet : MonoBehaviour
         //enemy.TakeDamage(damage);
         //}
 
-        if (hitInfo.gameObject.layer == 7) {
+        if (hitInfo.gameObject.layer == 7)
+        {
             Debug.Log("Hit Enemy");
             hitInfo.GetComponent<EnemyStats>().takeDamage(stats.attackPower);
             Destroy(gameObject);
@@ -37,9 +37,8 @@ public class Bullet : MonoBehaviour
 
         //Instantiate(impactEffect, transform.position, transform.rotation);
 
-        
+
 
         //Destroy(gameObject);
     }
-
 }

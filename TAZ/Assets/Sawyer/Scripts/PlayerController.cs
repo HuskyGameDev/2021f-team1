@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public Camera mainCamera;
     public Gun gun;
-    public GameObject basicAttackHitBox;
+    //public GameObject basicAttackHitBox;
 
     [Header("Layer Masks")]
     [SerializeField]
@@ -115,6 +115,11 @@ public class PlayerController : MonoBehaviour
 
         //mouse position
         GetMouse();
+
+        Vector2 dir = Input.mousePosition - mainCamera.WorldToScreenPoint(attack.position);
+        float anlge = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
+        attack.transform.rotation = Quaternion.AngleAxis(anlge, Vector3.forward);
+        //attack.LookAt(mouseWorldPos);
     }
 
     private void FixedUpdate()
@@ -172,10 +177,10 @@ public class PlayerController : MonoBehaviour
 
                 break;
             case "Phoenix":
-                gun.Shoot();
+                //gun.Shoot();
                 break;
             case "Dire wolf":
-                gun.Shoot();
+                //gun.Shoot();
                 break;
             case "Drake":
 
@@ -193,7 +198,7 @@ public class PlayerController : MonoBehaviour
 
                 break;
             case "Basilisk":
-                gun.Shoot();
+                gun.ShootSpecial();
                 break;
             default:
                 print("Test");
@@ -252,10 +257,10 @@ public class PlayerController : MonoBehaviour
 
                 break;
             case "Drake":
-                gun.Shoot();
+                //gun.Shoot();
                 break;
             case "Basilisk":
-                gun.Shoot();
+                gun.ShootUltimate();
                 break;
             default:
                 // code block
@@ -286,7 +291,7 @@ public class PlayerController : MonoBehaviour
 
                 break;
             case "Phoenix":
-                gun.Shoot();
+                //gun.Shoot();
                 break;
             case "Dire wolf":
 
@@ -320,9 +325,11 @@ public class PlayerController : MonoBehaviour
                 break;
             case "Basilisk":
 
-                basicAttackHitBox.SetActive(true);
+                gun.ShootBasic();
+
+                //basicAttackHitBox.SetActive(true);
                 
-                basicAttackHitBox.SetActive(false);
+                //basicAttackHitBox.SetActive(false);
 
                 /*
                 Debug.Log("Basilisk about to attack");
