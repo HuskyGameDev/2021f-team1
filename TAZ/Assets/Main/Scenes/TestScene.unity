@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 554643621}
   - component: {fileID: 554643620}
   - component: {fileID: 554643619}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EnemyF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23038,7 +23038,7 @@ GameObject:
   - component: {fileID: 1892296568}
   - component: {fileID: 1892296567}
   - component: {fileID: 1892296566}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

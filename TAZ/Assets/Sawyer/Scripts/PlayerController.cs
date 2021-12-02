@@ -162,6 +162,7 @@ public class PlayerController : MonoBehaviour
                     //use enemy.GetComponent<Enemy>.function()
                     //Call a function that hurts the enemy -- in the enemy's page the function should include:
                     //curHealth -= stats.attackpower
+                    enemy.GetComponent<EnemyStats>().takeDamage(stats.attackPower);
                     //if (curHealth <= 0) {destroy(self);}
                     //stats.attackpower; for damage done
                 }
@@ -214,6 +215,7 @@ public class PlayerController : MonoBehaviour
                     //use enemy.GetComponent<Enemy>.function()
                     //Call a function that hurts the enemy -- in the enemy's page the function should include:
                     //curHealth -= stats.attackpower
+                    enemy.GetComponent<EnemyStats>().takeDamage(stats.attackPower);
                     //if (curHealth <= 0) {destroy(self);}
                     //stats.attackpower; for damage done
                 }
@@ -274,6 +276,7 @@ public class PlayerController : MonoBehaviour
                     //use enemy.GetComponent<Enemy>.function()
                     //Call a function that hurts the enemy -- in the enemy's page the function should include:
                     //curHealth -= stats.attackpower
+                    enemy.GetComponent<EnemyStats>().takeDamage(stats.attackPower);
                     //if (curHealth <= 0) {destroy(self);}
                     //stats.attackpower; for damage done
                 }
@@ -322,6 +325,7 @@ public class PlayerController : MonoBehaviour
                     //use enemy.GetComponent<Enemy>.function()
                     //Call a function that hurts the enemy -- in the enemy's page the function should include:
                     //curHealth -= stats.attackpower
+                    enemy.GetComponent<EnemyStats>().takeDamage(stats.attackPower);
                     //if (curHealth <= 0) {destroy(self);}
                     //stats.attackpower; for damage done
                 }

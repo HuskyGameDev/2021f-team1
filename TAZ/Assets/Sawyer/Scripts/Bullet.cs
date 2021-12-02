@@ -5,6 +5,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
 
+    public PlayerStats stats;
+
     public float speed = 20f;
     public int damage = 40;
     public Rigidbody2D rb;
@@ -28,6 +30,8 @@ public class Bullet : MonoBehaviour
         //}
 
         Instantiate(impactEffect, transform.position, transform.rotation);
+
+        hitInfo.GetComponent<EnemyStats>().takeDamage(stats.attackPower);
 
         Destroy(gameObject);
     }

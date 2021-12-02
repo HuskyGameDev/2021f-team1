@@ -134,7 +134,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37dc76be83b16e140bef9a423328ffb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 3814498558518666553, guid: 851ac152e0123e94b84104d399a651c6, type: 3}
   speed: 20
   damage: 40
   rb: {fileID: 1593090124328223371}
   impactEffect: {fileID: 5690403701217874805}
+  TimeToLive: 5

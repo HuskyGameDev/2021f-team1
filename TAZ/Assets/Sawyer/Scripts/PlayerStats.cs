@@ -69,4 +69,8 @@ public class PlayerStats : MonoBehaviour
         specialCooldownTimer = specialCooldown;
         specialReady = false;
     }
+
+    public void takeDamage(int damage) {
+        currentHp -= damage;
+    }
 }
