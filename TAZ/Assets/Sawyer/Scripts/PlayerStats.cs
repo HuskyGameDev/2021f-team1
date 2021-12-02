@@ -20,7 +20,7 @@ public class PlayerStats : MonoBehaviour
     private float ultChargeTime = 0f;       // keeps track of time when ultimate charge should be increased next
     public bool ultReady = false;           // flag for keeping track of ultimate ability status
     public int score = 0;                   // total current score - might change
-	public int type = 0;					//This is the stat for which character is being played
+	public string type = "Basilisk";		//This is the stat for which character is being played
 
     private void Start()
     {

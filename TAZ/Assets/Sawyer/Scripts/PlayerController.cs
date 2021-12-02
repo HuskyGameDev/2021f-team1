@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public PlayerStats stats;
     private Rigidbody2D rb;
     public Camera mainCamera;
+    public Gun gun;
 
     [Header("Layer Masks")]
     [SerializeField]
@@ -61,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     //These are the stats for the attack object
     public Transform attack;
-    public float range = 1.0f;
+    public float range = .5f;
     public LayerMask enemyLayers;
 
     // Start is called before the first frame update
@@ -96,6 +97,19 @@ public class PlayerController : MonoBehaviour
             stats.resetUlt();
         }
 
+        if (Input.GetButtonDown("Fire1"))
+        {
+            basicAttack();
+        }
+        else if (Input.GetButtonDown("Fire2"))
+        {
+            specialAbility();
+        }
+        else if (Input.GetButtonDown("Fire3"))
+        {
+            ultimateAbility();
+        }
+
         //mouse position
         GetMouse();
     }
@@ -121,33 +135,61 @@ public class PlayerController : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == 6)
+        if (collision.collider.CompareTag("ground"))
             canJump = true;
 
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(attack.position, range);
     }
 
     // Ability functions
     private void specialAbility()
     {
-        print("First test");
+        Collider2D[] hits;
+
         switch (stats.type)
         {
-            case 0:
-                print("Test here");
+            case "Zoologist":
                 //stats.attackpower;
-                // code block
+                //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
+                hits = Physics2D.OverlapCircleAll(attack.position, 1f, enemyLayers);
+
+                foreach (Collider2D enemy in hits)
+                {
+                    //use enemy.GetComponent<Enemy>.function()
+                    //Call a function that hurts the enemy -- in the enemy's page the function should include:
+                    //curHealth -= stats.attackpower
+                    //if (curHealth <= 0) {destroy(self);}
+                    //stats.attackpower; for damage done
+                }
+
                 break;
-            case 1:
-                // code block
+            case "Phoenix":
+                gun.Shoot();
                 break;
-            case 2:
-                // code block
+            case "Dire wolf":
+                gun.Shoot();
                 break;
-            case 3:
-                // code block
+            case "Drake":
+
+                //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
+                hits = Physics2D.OverlapCircleAll(attack.position, 1f, enemyLayers);
+
+                foreach (Collider2D enemy in hits)
+                {
+                    //use enemy.GetComponent<Enemy>.function()
+                    //Call a function that hurts the enemy -- in the enemy's page the function should include:
+                        //curHealth -= stats.attackpower
+                        //if (curHealth <= 0) {destroy(self);}
+                    //stats.attackpower; for damage done
+                }
+
                 break;
-            case 4:
-                // code block
+            case "Basilisk":
+                gun.Shoot();
                 break;
             default:
                 print("Test");
@@ -159,23 +201,56 @@ public class PlayerController : MonoBehaviour
 
     private void ultimateAbility()
     {
+        Collider2D[] hits;
         switch (stats.type)
         {
-            case 0:
+            case "Zoologist":
                 //stats.attackpower;
-                // code block
+                //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
+                hits = Physics2D.OverlapCircleAll(attack.position, 1.2f, enemyLayers);
+
+                foreach (Collider2D enemy in hits)
+                {
+                    //use enemy.GetComponent<Enemy>.function()
+                    //Call a function that hurts the enemy -- in the enemy's page the function should include:
+                    //curHealth -= stats.attackpower
+                    //if (curHealth <= 0) {destroy(self);}
+                    //stats.attackpower; for damage done
+                }
                 break;
-            case 1:
-                // code block
+            case "Phoenix":
+                //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
+                hits = Physics2D.OverlapCircleAll(attack.position, 1f, enemyLayers);
+
+                foreach (Collider2D enemy in hits)
+                {
+                    //use enemy.GetComponent<Enemy>.function()
+                    //Call a function that hurts the enemy -- in the enemy's page the function should include:
+                    //curHealth -= stats.attackpower
+                    //if (curHealth <= 0) {destroy(self);}
+                    //stats.attackpower; for damage done
+                }
                 break;
-            case 2:
-                // code block
+            case "Dire wolf":
+
+                //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
+                hits = Physics2D.OverlapCircleAll(attack.position, 1.2f, enemyLayers);
+
+                foreach (Collider2D enemy in hits)
+                {
+                    //use enemy.GetComponent<Enemy>.function()
+                    //Call a function that hurts the enemy -- in the enemy's page the function should include:
+                    //curHealth -= stats.attackpower
+                    //if (curHealth <= 0) {destroy(self);}
+                    //stats.attackpower; for damage done
+                }
+
                 break;
-            case 3:
-                // code block
+            case "Drake":
+                gun.Shoot();
                 break;
-            case 4:
-                // code block
+            case "Basilisk":
+                gun.Shoot();
                 break;
             default:
                 // code block
@@ -186,31 +261,71 @@ public class PlayerController : MonoBehaviour
 
     private void basicAttack()
     {
+        Collider2D[] hits;
         switch (stats.type)
         {
-            case 0:
+            case "Zoologist":
 
                 //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
-                Collider2D[] hits = Physics2D.OverlapCircleAll(attack.position, range, enemyLayers);
+                hits = Physics2D.OverlapCircleAll(attack.position, .4f, enemyLayers);
 			
 			foreach (Collider2D enemy in hits)
                 {
-                    //Call a function that hurts the enemy
+                    //use enemy.GetComponent<Enemy>.function()
+                    //Call a function that hurts the enemy -- in the enemy's page the function should include:
+                    //curHealth -= stats.attackpower
+                    //if (curHealth <= 0) {destroy(self);}
                     //stats.attackpower; for damage done
                 }
 
                 break;
-            case 1:
-                // code block
+            case "Phoenix":
+                gun.Shoot();
                 break;
-            case 2:
-                // code block
+            case "Dire wolf":
+
+                //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
+                hits = Physics2D.OverlapCircleAll(attack.position, .5f, enemyLayers);
+
+                foreach (Collider2D enemy in hits)
+                {
+                    //use enemy.GetComponent<Enemy>.function()
+                    //Call a function that hurts the enemy -- in the enemy's page the function should include:
+                    //curHealth -= stats.attackpower
+                    //if (curHealth <= 0) {destroy(self);}
+                    //stats.attackpower; for damage done
+                }
+
                 break;
-            case 3:
-                // code block
+            case "Drake":
+
+                //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
+                hits = Physics2D.OverlapCircleAll(attack.position, .5f, enemyLayers);
+
+                foreach (Collider2D enemy in hits)
+                {
+                    //use enemy.GetComponent<Enemy>.function()
+                    //Call a function that hurts the enemy -- in the enemy's page the function should include:
+                    //curHealth -= stats.attackpower
+                    //if (curHealth <= 0) {destroy(self);}
+                    //stats.attackpower; for damage done
+                }
+
                 break;
-            case 4:
-                // code block
+            case "Basilisk":
+
+                //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
+                hits = Physics2D.OverlapCircleAll(attack.position, .4f, enemyLayers);
+
+                foreach (Collider2D enemy in hits)
+                {
+                    //use enemy.GetComponent<Enemy>.function()
+                    //Call a function that hurts the enemy -- in the enemy's page the function should include:
+                    //curHealth -= stats.attackpower
+                    //if (curHealth <= 0) {destroy(self);}
+                    //stats.attackpower; for damage done
+                }
+
                 break;
             default:
                 // code block
