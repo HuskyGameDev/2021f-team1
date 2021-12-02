@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public Camera mainCamera;
     public Gun gun;
+    public GameObject basicAttackHitBox;
 
     [Header("Layer Masks")]
     [SerializeField]
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour
     //These are the stats for the attack object
     public Transform attack;
     public float range = .5f;
-    public LayerMask enemyLayers;
+    public LayerMask enemyLayers = 7;
 
     // Start is called before the first frame update
     void Start()
@@ -84,14 +85,14 @@ public class PlayerController : MonoBehaviour
             WallJump(2);
         else if (Input.GetButtonDown("Jump") && canJump && (onGround || extraJumpsRemaining > 0))
             Jump();
-        else if (Input.GetKey(KeyCode.Alpha1))
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
             basicAttack();
-        else if (Input.GetKey(KeyCode.Alpha2) && stats.specialReady)
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && stats.specialReady)
         {
             specialAbility();
             stats.resetSpecial();
         }
-        else if (Input.GetKey(KeyCode.Alpha3) && stats.ultReady)
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && stats.ultReady)
         {
             ultimateAbility();
             stats.resetUlt();
@@ -319,18 +320,26 @@ public class PlayerController : MonoBehaviour
                 break;
             case "Basilisk":
 
+                basicAttackHitBox.SetActive(true);
+                
+                basicAttackHitBox.SetActive(false);
+
+                /*
+                Debug.Log("Basilisk about to attack");
                 //Basic attack case for melee and AOE attacks, with AOE attacks range being higher
-                hits = Physics2D.OverlapCircleAll(attack.position, .4f, enemyLayers);
+                hits = Physics2D.OverlapCircleAll(attack.position, 2.0f, enemyLayers);
 
                 foreach (Collider2D enemy in hits)
                 {
                     //use enemy.GetComponent<Enemy>.function()
                     //Call a function that hurts the enemy -- in the enemy's page the function should include:
                     //curHealth -= stats.attackpower
+                    Debug.Log("Basilisk attack");
                     enemy.GetComponent<EnemyStats>().takeDamage(stats.attackPower);
                     //if (curHealth <= 0) {destroy(self);}
                     //stats.attackpower; for damage done
                 }
+                */
 
                 break;
             default:

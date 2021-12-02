@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     public int damage = 40;
     public Rigidbody2D rb;
     public GameObject impactEffect;
-    public float TimeToLive = 5f;
+    public float TimeToLive = 5.0f;
 
 
     // Use this for initialization
@@ -26,14 +26,20 @@ public class Bullet : MonoBehaviour
         //Enemy enemy = hitInfo.GetComponent<Enemy>();
         //if (enemy != null)
         //{
-            //enemy.TakeDamage(damage);
+        //enemy.TakeDamage(damage);
         //}
 
-        Instantiate(impactEffect, transform.position, transform.rotation);
+        if (hitInfo.gameObject.layer == 7) {
+            Debug.Log("Hit Enemy");
+            hitInfo.GetComponent<EnemyStats>().takeDamage(stats.attackPower);
+            Destroy(gameObject);
+        }
 
-        hitInfo.GetComponent<EnemyStats>().takeDamage(stats.attackPower);
+        //Instantiate(impactEffect, transform.position, transform.rotation);
 
-        Destroy(gameObject);
+        
+
+        //Destroy(gameObject);
     }
 
 }
