@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("ground"))
+        if (collision.gameObject.layer == 6)
             canJump = true;
 
     }

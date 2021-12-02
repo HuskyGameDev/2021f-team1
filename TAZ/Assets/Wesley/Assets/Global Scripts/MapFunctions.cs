@@ -46,6 +46,7 @@ public class MapFunctions
     /// <param name="tile">Tile we will draw with</param>
     public static void RenderMap(int[,] map, Tilemap tilemap, TileBase tile)
     {
+
         tilemap.ClearAllTiles(); //Clear the map (ensures we dont overlap)
         for (int x = 0; x < map.GetUpperBound(0) ; x++) //Loop through the width of the map
         {
