@@ -39,6 +39,7 @@ public class LevelGenerator : MonoBehaviour {
 		if (mapSetting.randomSeed)
 		{
 			seed = Time.time;
+			Debug.Log("Seed: " + seed);
 		}
 		else
 		{
