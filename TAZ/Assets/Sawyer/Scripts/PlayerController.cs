@@ -84,19 +84,20 @@ public class PlayerController : MonoBehaviour
             WallJump(2);
         else if (Input.GetButtonDown("Jump") && canJump && (onGround || extraJumpsRemaining > 0))
             Jump();
-        else if (Input.GetMouseButtonDown(0))
+        else if (Input.GetKey(KeyCode.Alpha1))
             basicAttack();
-        else if (Input.GetKey(KeyCode.E) && stats.specialReady)
+        else if (Input.GetKey(KeyCode.Alpha2) && stats.specialReady)
         {
             specialAbility();
             stats.resetSpecial();
         }
-        else if (Input.GetKey(KeyCode.Q) && stats.ultReady)
+        else if (Input.GetKey(KeyCode.Alpha3) && stats.ultReady)
         {
             ultimateAbility();
             stats.resetUlt();
         }
 
+        /*
         if (Input.GetButtonDown("Fire1"))
         {
             basicAttack();
@@ -109,6 +110,7 @@ public class PlayerController : MonoBehaviour
         {
             ultimateAbility();
         }
+        */
 
         //mouse position
         GetMouse();
