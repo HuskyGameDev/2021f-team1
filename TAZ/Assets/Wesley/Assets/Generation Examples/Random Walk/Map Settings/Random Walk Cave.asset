@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72922ab41e7dd4348a6bed1e9720b1d1, type: 3}
   m_Name: Random Walk Cave
   m_EditorClassIdentifier: 
-  algorithm: 3
+  algorithm: 2
   randomSeed: 1
   seed: 1.77
   fillAmount: 0
   smoothAmount: 0
-  clearAmount: 24
+  clearAmount: 18
   interval: 4
   minPathWidth: 0
   maxPathWidth: 0

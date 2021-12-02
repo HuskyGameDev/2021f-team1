@@ -14,7 +14,7 @@ using UnityEditor;
 
 public enum Algorithm
 {
-    RandomWalkTop, RandomWalkTopSmoothed, RandomWalkCave, RandomWalkCaveCustom
+    RandomWalkTop, RandomWalkTopSmoothed, RandomWalkCave
 }
 
 [System.Serializable]
@@ -62,9 +62,6 @@ public class MapSettings_Editor : Editor
                 mapLayer.interval = EditorGUILayout.IntSlider("Minimum Section Length", mapLayer.interval, 1, 10);
                 break;
             case Algorithm.RandomWalkCave:
-                mapLayer.clearAmount = EditorGUILayout.IntSlider("Amount To Clear", mapLayer.clearAmount, 0, 100);
-                break;
-            case Algorithm.RandomWalkCaveCustom:
                 mapLayer.clearAmount = EditorGUILayout.IntSlider("Amount To Clear", mapLayer.clearAmount, 0, 100);
                 break;
         }

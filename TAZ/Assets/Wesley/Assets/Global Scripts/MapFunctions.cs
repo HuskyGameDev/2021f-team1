@@ -320,188 +320,33 @@ public class MapFunctions
         return map; 
     }
 
-	/// <summary>
-	/// EXPERIMENTAL 
-	/// Generates a random walk cave but with the option to move in any of the 8 directions
-	/// </summary>
-	/// <param name="map">The map array to change</param>
-	/// <param name="seed">The seed for the random</param>
-	/// <param name="requiredFloorPercent">Required amouount of floor to remove</param>
-	/// <returns>The modified map array</returns>
-	public static int[,] RandomWalkCaveCustom(int[,] map, float seed,  int requiredFloorPercent)
+    /// <summary>
+    /// Used to create a new store in the cave made from RandomWalkCave.
+    /// </summary>
+    /// <param name="map">The array that holds the map information</param>
+    /// <param name="mapWidth">The width of the map</param>
+    /// <param name="mapHeight">The height of the map</param>
+    /// <param name="buildingWidth">The width of the building being added to the cave</param>
+    /// <param name="buildingHeight">The height of the building being added to the cave</param>
+    /// <param name="x">The buildings x cordinate</param>
+    /// <param name="y">The buildings y cordinate</param>
+    /// <returns>The modified map array</returns>
+    public static int[,] MakeBuilding(int[,] map, int mapWidth, int mapHeight, int buildingWidth, int buildingHeight, int x, int y)
     {
-        //Seed our random
-        System.Random rand = new System.Random(seed.GetHashCode());
-
-        //Define our start x position
-        int floorX = Random.Range(1, map.GetUpperBound(0) - 1);
-        //Define our start y position
-        int floorY = Random.Range(1, map.GetUpperBound(1) - 1);
-        //Determine our required floorAmount
-        int reqFloorAmount = ((map.GetUpperBound(1) * map.GetUpperBound(0)) * requiredFloorPercent) / 100;
-        //Used for our while loop, when this reaches our reqFloorAmount we will stop tunneling
-        int floorCount = 0;
-
-        //Set our start position to not be a tile (0 = no tile, 1 = tile)
-        map[floorX, floorY] = 0;
-        //Increase our floor count
-        floorCount++;
-
-        while (floorCount < reqFloorAmount)
+        //check that there is enough room for the store and has room to be in position
+        if(mapWidth >= buildingWidth * 2 && mapHeight >= buildingHeight * 2)
         {
-            //Determine our next direction
-            int randDir = rand.Next(8);
-
-            switch (randDir)
+            for (int i = 0; i < buildingHeight; i++)
             {
-                case 0: //North-West
-                    //Ensure we don't go off the map
-                    if ((floorY + 1) < map.GetUpperBound(1) && (floorX -1) > 0)
-                    {
-                        //Move the y up 
-                        floorY++;
-                        //Move the x left
-                        floorX--;
-
-                        //Check if the position is a tile
-                        if (map[floorX, floorY] == 1)
-                        {
-                            //Change it to not a tile
-                            map[floorX, floorY] = 0;
-                            //Increase floor count
-                            floorCount++;
-                        }
-                    }
-                    break;
-                case 1: //North
-                    //Ensure we don't go off the map
-                    if ((floorY + 1) < map.GetUpperBound(1))
-                    {
-                        //Move the y up
-                        floorY++;
-
-                        //Check if the position is a tile
-                        if (map[floorX, floorY] == 1)
-                        {
-                            //Change it to not a tile
-                            map[floorX, floorY] = 0;
-                            //Increase the floor count
-                            floorCount++;
-                        }
-                    }
-                    break;
-                case 2: //North-East
-                    //Ensure we don't go off the map
-                    if ((floorY + 1) < map.GetUpperBound(1) && (floorX + 1) < map.GetUpperBound(0))
-                    {
-                        //Move the y up
-                        floorY++;
-                        //Move the x right
-                        floorX++;
-
-                        //Check if the position is a tile
-                        if (map[floorX, floorY] == 1)
-                        {
-                            //Change it to not a tile
-                            map[floorX, floorY] = 0;
-                            //Increase the floor count
-                            floorCount++;
-                        }
-                    }
-                    break;
-                case 3: //East
-                    //Ensure we don't go off the map
-                    if ((floorX + 1) < map.GetUpperBound(0))
-                    {
-                        //Move the x right
-                        floorX++;
-
-                        //Check if the position is a tile
-                        if (map[floorX, floorY] == 1)
-                        {
-                            //Change it to not a tile
-                            map[floorX, floorY] = 0;
-                            //Increase the floor count
-                            floorCount++; 
-                        }
-                    }
-                    break;
-                case 4: //South-East
-                    //Ensure we don't go off the map
-                    if((floorY -1) > 0 && (floorX + 1) < map.GetUpperBound(0))
-                    {
-                        //Move the y down
-                        floorY--;
-                        //Move the x right
-                        floorX++;
-
-                        //Check if the position is a tile
-                        if(map[floorX,floorY] == 1)
-                        {
-                            //Change it to not a tile
-                            map[floorX, floorY] = 0;
-                            //Increase the floor count
-                            floorCount++;
-                        }
-                    }
-                    break;
-                case 5: //South
-                    //Ensure we don't go off the map
-                    if((floorY - 1) > 0)
-                    {
-                        //Move the y down
-                        floorY--;
-
-                        //Check if the position is a tile
-                        if(map[floorX,floorY] == 1)
-                        {
-                            //Change it to not a tile
-                            map[floorX, floorY] = 0;
-                            //Increase the floor count
-                            floorCount++;
-                        }
-                    }
-                    break;
-                case 6: //South-West
-                    //Ensure we don't go off the map
-                    if((floorY - 1) > 0 && (floorX - 1) > 0)
-                    {
-                        //Move the y down
-                        floorY--;
-                        //move the x left
-                        floorX--;
-
-                        //Check if the position is a tile
-                        if(map[floorX,floorY] == 1)
-                        {
-                            //Change it to not a tile
-                            map[floorX, floorY] = 0;
-                            //Increase the floor count
-                            floorCount++;
-                        }
-                    }
-                    break;
-                case 7: //West
-                    //Ensure we don't go off the map
-                    if((floorX - 1) > 0)
-                    {
-                        //Move the x left
-                        floorX--;
-                        
-                        //Check if the position is a tile
-                        if(map[floorX,floorY] == 1)
-                        {
-                            //Change it to not a tile
-                            map[floorX, floorY] = 0;
-                            //Increase the floor count
-                            floorCount++;
-                        }
-                    }
-                    break;
+                for (int j = 0; j < buildingWidth; j++)
+                {
+                    map[x, y] = 3;
+                    x++;
+                }
+                x = 5;
+                y++;
             }
         }
-
-        return map; 
+        return map;
     }
-  
 }

@@ -48,6 +48,7 @@ public class LevelGenerator : MonoBehaviour {
 		//Generate the map depending omapSen the algorithm selected
 		switch (mapSetting.algorithm)
 		{
+			
 			case Algorithm.RandomWalkTop:
 				//First generate our array
 				map = MapFunctions.GenerateArray(width, height, true);
@@ -65,13 +66,8 @@ public class LevelGenerator : MonoBehaviour {
 				map = MapFunctions.GenerateArray(width, height, false);
 				//Next generate the random walk cave
 				map = MapFunctions.RandomWalkCave(map, seed, mapSetting.clearAmount);
-				break;
-			case Algorithm.RandomWalkCaveCustom:
-				//First generate our array
-				map = MapFunctions.GenerateArray(width, height, false);
-				//Next generate the custom random walk cave
-				map = MapFunctions.RandomWalkCaveCustom(map, seed, mapSetting.clearAmount);
-				break;
+                map = MapFunctions.MakeBuilding(map, width, height, 15, 5, 5, 5);
+                break;
 		}
 		//Render the result
 		MapFunctions.RenderMap(map, tilemap, tile);
